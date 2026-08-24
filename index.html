@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF四引擎轮动系统 - 实时信号看板</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0a0e1a;
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* 顶部海报 */
+.hero {
+    width: 100%;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.hero img { width: 100%; display: block; }
+
+/* 更新时间 */
+.update-bar {
+    text-align: center;
+    padding: 12px;
+    background: linear-gradient(90deg, transparent, rgba(59,130,246,0.15), transparent);
+    border-radius: 10px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #94a3b8;
+}
+.update-bar b { color: #60a5fa; }
+
+/* 市场状态 */
+.market-state {
+    background: linear-gradient(135deg, #1a1f2e, #0f1420);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px 30px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.market-indicator {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: #ef4444;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 0 30px #ef444455;
+    flex-shrink: 0;
+}
+.market-info h2 { font-size: 22px; margin-bottom: 6px; color: #ef4444; }
+.market-info p { font-size: 14px; color: #94a3b8; }
+
+/* 统计卡片 */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+}
+.stat-card {
+    background: linear-gradient(135deg, #1a1f2e, #0f1420);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+}
+.stat-card .num { font-size: 36px; font-weight: 700; margin-bottom: 4px; }
+.stat-card .label { font-size: 13px; color: #94a3b8; }
+.stat-buy .num { color: #10b981; }
+.stat-watch .num { color: #f59e0b; }
+.stat-avoid .num { color: #ef4444; }
+.stat-total .num { color: #60a5fa; }
+
+/* 区块标题 */
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 40px 0 20px;
+    padding-left: 14px;
+    border-left: 4px solid #3b82f6;
+    color: #f1f5f9;
+}
+
+/* 四引擎策略说明 */
+.engines-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+}
+.engine-card {
+    background: linear-gradient(135deg, #1a1f2e, #0f1420);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 22px;
+    border-top: 3px solid var(--ec);
+}
+.engine-card h3 { font-size: 17px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.engine-card .engine-desc { font-size: 13px; color: #94a3b8; margin-bottom: 14px; }
+.engine-card .rules { font-size: 13px; color: #cbd5e1; }
+.engine-card .rules li { margin-bottom: 6px; padding-left: 4px; list-style: none; }
+.engine-card .rules li::before { content: "▸ "; color: var(--ec); }
+
+/* 筛选栏 */
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.filter-btn {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.filter-btn:hover { border-color: #3b82f6; color: #e2e8f0; }
+.filter-btn.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+
+/* 表格 */
+.table-wrap {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 40px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 900px;
+}
+thead th {
+    background: #1a1f2e;
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #94a3b8;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    white-space: nowrap;
+}
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    white-space: nowrap;
+}
+tbody tr:hover { background: rgba(59,130,246,0.06); }
+.code { font-family: monospace; color: #60a5fa; font-weight: 600; }
+.name { font-weight: 500; }
+.price { font-weight: 600; }
+.deviation.pos { color: #ef4444; }
+.deviation.neg { color: #10b981; }
+.pos { color: #ef4444; }
+.neg { color: #10b981; }
+.vol-tag { font-size: 11px; color: #94a3b8; }
+.ma20-status.up { color: #10b981; }
+.ma20-status.down { color: #ef4444; }
+.signal { font-weight: 700; text-align: center; padding: 6px 10px; border-radius: 6px; font-size: 12px; }
+.signal-buy { background: rgba(16,185,129,0.15); color: #10b981; }
+.signal-watch { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.signal-avoid { background: rgba(239,68,68,0.15); color: #ef4444; }
+.signal-none { background: rgba(107,114,128,0.15); color: #6b7280; }
+.reason { font-size: 12px; color: #94a3b8; white-space: normal; min-width: 200px; max-width: 300px; }
+
+/* 重点关注卡片 */
+.focus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+}
+.focus-card {
+    background: linear-gradient(135deg, #1a1f2e, #0f1420);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    overflow: hidden;
+}
+.focus-header {
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.02);
+}
+.focus-code { font-family: monospace; color: #60a5fa; font-weight: 700; margin-right: 8px; }
+.focus-name { font-weight: 600; }
+.focus-signal {
+    background: rgba(16,185,129,0.15);
+    color: #10b981;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.focus-body {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 16px 18px;
+}
+.focus-metric { text-align: center; }
+.focus-metric span { display: block; font-size: 11px; color: #64748b; margin-bottom: 2px; }
+.focus-metric b { font-size: 15px; }
+.focus-reason {
+    padding: 12px 18px;
+    font-size: 12px;
+    color: #94a3b8;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    line-height: 1.5;
+}
+
+/* 操作建议 */
+.advice-box {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-bottom: 30px;
+}
+.advice-box h3 { color: #60a5fa; margin-bottom: 16px; font-size: 18px; }
+.advice-box ul { list-style: none; }
+.advice-box li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: #cbd5e1;
+}
+.advice-box li:last-child { border-bottom: none; }
+.advice-box li::before { content: "⚡ "; }
+
+/* 纪律铁律 */
+.discipline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+}
+.disc-card {
+    background: linear-gradient(135deg, #1a1f2e, #0f1420);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+}
+.disc-card .lock { font-size: 32px; margin-bottom: 10px; }
+.disc-card h4 { font-size: 15px; margin-bottom: 8px; color: #f1f5f9; }
+.disc-card p { font-size: 12px; color: #94a3b8; line-height: 1.6; }
+
+/* 风险提示 */
+.risk-warning {
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    font-size: 13px;
+    color: #fca5a5;
+    line-height: 1.8;
+}
+.risk-warning b { color: #ef4444; }
+
+footer {
+    text-align: center;
+    padding: 30px 0;
+    color: #475569;
+    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+@media (max-width: 768px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .engines-grid { grid-template-columns: 1fr; }
+    .discipline { grid-template-columns: 1fr; }
+    .focus-grid { grid-template-columns: 1fr; }
+    .market-state { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部海报 -->
+<div class="hero">
+    <img src="poster.jpg" alt="ETF四引擎轮动系统">
+</div>
+
+<div class="container">
+
+<!-- 更新时间 -->
+<div class="update-bar">
+    数据更新时间：<b>2026-08-24 18:51:27</b> ｜ 数据来源：新浪财经 ｜ 共监控 <b>30</b> 只ETF
+</div>
+
+<!-- 市场状态 -->
+<div class="market-state">
+    <div class="market-indicator">📉</div>
+    <div class="market-info">
+        <h2>当前市场状态：下跌趋势</h2>
+        <p>沪深300跌破MA20且均线向下，防守为主，降低仓位，关注货币ETF</p>
+    </div>
+</div>
+
+<!-- 统计 -->
+<div class="stats">
+    <div class="stat-card stat-total"><div class="num">30</div><div class="label">监控总数</div></div>
+    <div class="stat-card stat-buy"><div class="num">12</div><div class="label">建议进场/可开网格</div></div>
+    <div class="stat-card stat-watch"><div class="num">8</div><div class="label">观望</div></div>
+    <div class="stat-card stat-avoid"><div class="num">10</div><div class="label">不建议/流动性不足</div></div>
+</div>
+
+<!-- 四引擎策略条件 -->
+<h2 class="section-title">四引擎入场条件</h2>
+<div class="engines-grid">
+    <div class="engine-card" style="--ec:#f59e0b">
+        <h3>📈 跨境T+0套利</h3>
+        <div class="engine-desc">主动趋势追踪 ｜ 适用：单边趋势</div>
+        <ul class="rules">
+            <li>价格回踩后站上20日均线</li>
+            <li>当日成交量较前5日均量萎缩（量比&lt;0.85）</li>
+            <li>MA20趋势向上（右侧确认）</li>
+            <li>止盈≥2%，跌破MA20下方1.5%止损</li>
+            <li>标的：纳指/标普/恒生科技/中概互联等跨境ETF</li>
+        </ul>
+    </div>
+    <div class="engine-card" style="--ec:#06b6d4">
+        <h3>🏦 债券节假日套利</h3>
+        <div class="engine-desc">事件驱动停泊 ｜ 适用：法定长假前</div>
+        <ul class="rules">
+            <li>节前倒数第2个交易日买入货币/短债ETF</li>
+            <li>享受跨节假日息计提+资金避险溢价</li>
+            <li>节后开盘首日卖出，完成资金闭环</li>
+            <li>单次预期0.3%-0.8%，年化增厚2%-3%</li>
+            <li>标的：华宝添益/银华日利/政金债ETF等</li>
+        </ul>
+    </div>
+    <div class="engine-card" style="--ec:#eab308">
+        <h3>🥇 黄金宏观套利</h3>
+        <div class="engine-desc">全球宏观共振 ｜ 适用：全球大宗共振</div>
+        <ul class="rules">
+            <li>纽约金期货站上MA20（前置指标）</li>
+            <li>国内黄金ETF同步站稳MA20</li>
+            <li>MA20趋势向上，偏离度&lt;8%（未超买）</li>
+            <li>止盈5%减半/8%清仓，跌破MA20止损</li>
+            <li>标的：华安黄金/博时黄金ETF</li>
+        </ul>
+    </div>
+    <div class="engine-card" style="--ec:#ec4899">
+        <h3>🔄 宽基网格自动化</h3>
+        <div class="engine-desc">被动震荡收割 ｜ 适用：长期横盘震荡</div>
+        <ul class="rules">
+            <li>必须选宽基ETF，指数PE分位值&lt;30%</li>
+            <li>日均成交额&gt;1亿（流动性底线）</li>
+            <li>20日波动&gt;4%（有收割空间）</li>
+            <li>每涨跌3%触发一次买卖，自动循环</li>
+            <li>严禁高估值行业ETF开网格，防"网破鱼死"</li>
+        </ul>
+    </div>
+</div>
+
+<!-- 重点关注 -->
+<h2 class="section-title">🔥 当前建议进场标的（12只）</h2>
+<div class="focus-grid">
+
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #f59e0b">
+                <div class="focus-title">
+                    <span class="focus-code">513500</span>
+                    <span class="focus-name">标普500ETF</span>
+                </div>
+                <span class="focus-signal">建议进场</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>2.672</b></div>
+                <div class="focus-metric"><span>MA20</span><b>2.6424</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+1.12%</b></div>
+                <div class="focus-metric"><span>量比</span><b>0.63</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>3.74亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-2.77%</b></div>
+            </div>
+            <div class="focus-reason">站上MA20，量比0.63缩量回踩，MA20向上，符合趋势狙击</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #f59e0b">
+                <div class="focus-title">
+                    <span class="focus-code">513030</span>
+                    <span class="focus-name">德国ETF</span>
+                </div>
+                <span class="focus-signal">建议进场</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>1.886</b></div>
+                <div class="focus-metric"><span>MA20</span><b>1.8855</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+0.03%</b></div>
+                <div class="focus-metric"><span>量比</span><b>0.4</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>2.91亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-5.27%</b></div>
+            </div>
+            <div class="focus-reason">站上MA20，量比0.4缩量回踩，MA20向上，符合趋势狙击</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #eab308">
+                <div class="focus-title">
+                    <span class="focus-code">518880</span>
+                    <span class="focus-name">华安黄金ETF</span>
+                </div>
+                <span class="focus-signal">建议进场</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>9.564</b></div>
+                <div class="focus-metric"><span>MA20</span><b>8.8574</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+7.98%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.77</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>56.75亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="pos">+5.47%</b></div>
+            </div>
+            <div class="focus-reason">站上MA20(8.8574)，趋势向上，偏离7.98%，可逢低布局</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">510300</span>
+                    <span class="focus-name">沪深300ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>4.627</b></div>
+                <div class="focus-metric"><span>MA20</span><b>4.6929</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-1.40%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.03</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>42.96亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-3.62%</b></div>
+            </div>
+            <div class="focus-reason">20日波动4.4%，价格处20日14%分位，日均成交42.96亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">510500</span>
+                    <span class="focus-name">中证500ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>7.74</b></div>
+                <div class="focus-metric"><span>MA20</span><b>7.8103</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-0.90%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.07</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>27.16亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-5.58%</b></div>
+            </div>
+            <div class="focus-reason">20日波动11.1%，价格处20日47%分位，日均成交27.16亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">159915</span>
+                    <span class="focus-name">创业板ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>3.457</b></div>
+                <div class="focus-metric"><span>MA20</span><b>3.521</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-1.82%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.1</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>65.83亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-7.96%</b></div>
+            </div>
+            <div class="focus-reason">20日波动14.1%，价格处20日38%分位，日均成交65.83亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">588000</span>
+                    <span class="focus-name">科创50ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>1.691</b></div>
+                <div class="focus-metric"><span>MA20</span><b>1.7769</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-4.83%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.03</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>70.09亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-10.43%</b></div>
+            </div>
+            <div class="focus-reason">20日波动14.9%，价格处20日22%分位，日均成交70.09亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">512100</span>
+                    <span class="focus-name">中证1000ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>3.04</b></div>
+                <div class="focus-metric"><span>MA20</span><b>3.0375</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+0.08%</b></div>
+                <div class="focus-metric"><span>量比</span><b>0.96</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>37.7亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-5.74%</b></div>
+            </div>
+            <div class="focus-reason">20日波动14.0%，价格处20日57%分位，日均成交37.7亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">159901</span>
+                    <span class="focus-name">深证100ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>3.591</b></div>
+                <div class="focus-metric"><span>MA20</span><b>3.6599</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-1.88%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.17</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>3.98亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-5.67%</b></div>
+            </div>
+            <div class="focus-reason">20日波动7.9%，价格处20日24%分位，日均成交3.98亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">159949</span>
+                    <span class="focus-name">创业板50ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>1.621</b></div>
+                <div class="focus-metric"><span>MA20</span><b>1.6538</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-1.99%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.09</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>17.89亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-8.16%</b></div>
+            </div>
+            <div class="focus-reason">20日波动14.1%，价格处20日37%分位，日均成交17.89亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">510330</span>
+                    <span class="focus-name">华夏沪深300ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>4.824</b></div>
+                <div class="focus-metric"><span>MA20</span><b>4.8925</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-1.40%</b></div>
+                <div class="focus-metric"><span>量比</span><b>0.85</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>7.03亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-3.60%</b></div>
+            </div>
+            <div class="focus-reason">20日波动4.3%，价格处20日13%分位，日均成交7.03亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+        <div class="focus-card">
+            <div class="focus-header" style="border-left:4px solid #ec4899">
+                <div class="focus-title">
+                    <span class="focus-code">159922</span>
+                    <span class="focus-name">嘉实中证500ETF</span>
+                </div>
+                <span class="focus-signal">可开网格</span>
+            </div>
+            <div class="focus-body">
+                <div class="focus-metric"><span>现价</span><b>3.142</b></div>
+                <div class="focus-metric"><span>MA20</span><b>3.1679</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-0.82%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.21</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>3.95亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-5.56%</b></div>
+            </div>
+            <div class="focus-reason">20日波动11.3%，价格处20日48%分位，日均成交3.95亿，适合网格（需核实PE分位<30%）</div>
+        </div>
+</div>
+
+<!-- 全量信号表 -->
+<h2 class="section-title">📊 30只ETF全量信号</h2>
+<div class="filter-bar">
+    <button class="filter-btn active" onclick="filterTable('all', this)">全部</button>
+    <button class="filter-btn" onclick="filterTable('A', this)">跨境T+0</button>
+    <button class="filter-btn" onclick="filterTable('B', this)">债券套利</button>
+    <button class="filter-btn" onclick="filterTable('C', this)">黄金宏观</button>
+    <button class="filter-btn" onclick="filterTable('D', this)">宽基网格</button>
+    <button class="filter-btn" onclick="filterTable('buy', this)">仅看建议进场</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+    <th>代码</th>
+    <th>名称</th>
+    <th>引擎</th>
+    <th>现价</th>
+    <th>MA20</th>
+    <th>偏离度</th>
+    <th>量比</th>
+    <th>日均成交</th>
+    <th>MA20状态</th>
+    <th>信号</th>
+    <th>判断理由</th>
+</tr>
+</thead>
+<tbody>
+
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">513100</td>
+            <td class="name">纳指ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">2.166</td>
+            <td class="ma20">2.1934</td>
+            <td class="deviation neg">-1.25%</td>
+            <td class="volratio">1.11 <span class="vol-tag">平量</span></td>
+            <td class="amount">2.82亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价2.166低于MA20(2.1934)，偏离-1.25%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="buy">
+            <td class="code">513500</td>
+            <td class="name">标普500ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">2.672</td>
+            <td class="ma20">2.6424</td>
+            <td class="deviation pos">+1.12%</td>
+            <td class="volratio">0.63 <span class="vol-tag">缩量</span></td>
+            <td class="amount">3.74亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-buy">建议进场</td>
+            <td class="reason">站上MA20，量比0.63缩量回踩，MA20向上，符合趋势狙击</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">513130</td>
+            <td class="name">恒生科技ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">0.572</td>
+            <td class="ma20">0.5965</td>
+            <td class="deviation neg">-4.10%</td>
+            <td class="volratio">1.22 <span class="vol-tag">放量</span></td>
+            <td class="amount">21.48亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价0.572低于MA20(0.5965)，偏离-4.1%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">159920</td>
+            <td class="name">恒生ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">1.499</td>
+            <td class="ma20">1.51</td>
+            <td class="deviation neg">-0.73%</td>
+            <td class="volratio">1.09 <span class="vol-tag">平量</span></td>
+            <td class="amount">2.37亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价1.499低于MA20(1.51)，偏离-0.73%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="buy">
+            <td class="code">513030</td>
+            <td class="name">德国ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">1.886</td>
+            <td class="ma20">1.8855</td>
+            <td class="deviation pos">+0.03%</td>
+            <td class="volratio">0.4 <span class="vol-tag">缩量</span></td>
+            <td class="amount">2.91亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-buy">建议进场</td>
+            <td class="reason">站上MA20，量比0.4缩量回踩，MA20向上，符合趋势狙击</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">513520</td>
+            <td class="name">日经ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">2.249</td>
+            <td class="ma20">2.2613</td>
+            <td class="deviation neg">-0.55%</td>
+            <td class="volratio">0.51 <span class="vol-tag">缩量</span></td>
+            <td class="amount">2.63亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价2.249低于MA20(2.2613)，偏离-0.55%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">513050</td>
+            <td class="name">中概互联ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">1.071</td>
+            <td class="ma20">1.1363</td>
+            <td class="deviation neg">-5.75%</td>
+            <td class="volratio">1.15 <span class="vol-tag">平量</span></td>
+            <td class="amount">22.13亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价1.071低于MA20(1.1363)，偏离-5.75%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">513080</td>
+            <td class="name">法国ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">1.791</td>
+            <td class="ma20">1.8027</td>
+            <td class="deviation neg">-0.65%</td>
+            <td class="volratio">0.77 <span class="vol-tag">缩量</span></td>
+            <td class="amount">0.46亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价1.791低于MA20(1.8027)，偏离-0.65%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">513730</td>
+            <td class="name">越南ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">1.159</td>
+            <td class="ma20">1.1621</td>
+            <td class="deviation neg">-0.26%</td>
+            <td class="volratio">1.02 <span class="vol-tag">平量</span></td>
+            <td class="amount">0.14亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价1.159低于MA20(1.1621)，偏离-0.26%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="A" data-level="avoid">
+            <td class="code">513110</td>
+            <td class="name">纳指科技ETF</td>
+            <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
+            <td class="price">2.439</td>
+            <td class="ma20">2.4526</td>
+            <td class="deviation neg">-0.56%</td>
+            <td class="volratio">0.55 <span class="vol-tag">缩量</span></td>
+            <td class="amount">1.81亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">现价2.439低于MA20(2.4526)，偏离-0.56%，均线之下不抄底</td>
+        </tr>
+        <tr class="etf-row" data-engine="B" data-level="watch">
+            <td class="code">511990</td>
+            <td class="name">华宝添益</td>
+            <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
+            <td class="price">100.003</td>
+            <td class="ma20">100.0008</td>
+            <td class="deviation pos">+0.00%</td>
+            <td class="volratio">0.92 <span class="vol-tag">平量</span></td>
+            <td class="amount">86.67亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">当前(08-24)非长假窗口，作现金管理持有，长假前1周布局</td>
+        </tr>
+        <tr class="etf-row" data-engine="B" data-level="watch">
+            <td class="code">511880</td>
+            <td class="name">银华日利</td>
+            <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
+            <td class="price">100.745</td>
+            <td class="ma20">100.6947</td>
+            <td class="deviation pos">+0.05%</td>
+            <td class="volratio">0.93 <span class="vol-tag">平量</span></td>
+            <td class="amount">163.52亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">当前(08-24)非长假窗口，作现金管理持有，长假前1周布局</td>
+        </tr>
+        <tr class="etf-row" data-engine="B" data-level="watch">
+            <td class="code">511620</td>
+            <td class="name">海富通短融</td>
+            <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
+            <td class="price">100.006</td>
+            <td class="ma20">100.0059</td>
+            <td class="deviation pos">+0.00%</td>
+            <td class="volratio">0.96 <span class="vol-tag">平量</span></td>
+            <td class="amount">0.16亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">当前(08-24)非长假窗口，作现金管理持有，长假前1周布局</td>
+        </tr>
+        <tr class="etf-row" data-engine="B" data-level="watch">
+            <td class="code">511520</td>
+            <td class="name">政金债ETF</td>
+            <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
+            <td class="price">118.559</td>
+            <td class="ma20">118.3276</td>
+            <td class="deviation pos">+0.20%</td>
+            <td class="volratio">0.7 <span class="vol-tag">缩量</span></td>
+            <td class="amount">23.32亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">当前(08-24)非长假窗口，作现金管理持有，长假前1周布局</td>
+        </tr>
+        <tr class="etf-row" data-engine="B" data-level="watch">
+            <td class="code">511260</td>
+            <td class="name">十年国债ETF</td>
+            <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
+            <td class="price">135.848</td>
+            <td class="ma20">135.5469</td>
+            <td class="deviation pos">+0.22%</td>
+            <td class="volratio">0.4 <span class="vol-tag">缩量</span></td>
+            <td class="amount">50.77亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">当前(08-24)非长假窗口，作现金管理持有，长假前1周布局</td>
+        </tr>
+        <tr class="etf-row" data-engine="C" data-level="buy">
+            <td class="code">518880</td>
+            <td class="name">华安黄金ETF</td>
+            <td class="engine-tag" style="color:#eab308">黄金宏观套利</td>
+            <td class="price">9.564</td>
+            <td class="ma20">8.8574</td>
+            <td class="deviation pos">+7.98%</td>
+            <td class="volratio">1.77 <span class="vol-tag">放量</span></td>
+            <td class="amount">56.75亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-buy">建议进场</td>
+            <td class="reason">站上MA20(8.8574)，趋势向上，偏离7.98%，可逢低布局</td>
+        </tr>
+        <tr class="etf-row" data-engine="C" data-level="watch">
+            <td class="code">159937</td>
+            <td class="name">博时黄金ETF</td>
+            <td class="engine-tag" style="color:#eab308">黄金宏观套利</td>
+            <td class="price">9.542</td>
+            <td class="ma20">8.8354</td>
+            <td class="deviation pos">+8.00%</td>
+            <td class="volratio">1.47 <span class="vol-tag">放量</span></td>
+            <td class="amount">8.73亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">趋势向上但偏离MA20达8.0%，短期超买，等回调</td>
+        </tr>
+        <tr class="etf-row" data-engine="C" data-level="watch">
+            <td class="code">518800</td>
+            <td class="name">黄金基金ETF</td>
+            <td class="engine-tag" style="color:#eab308">黄金宏观套利</td>
+            <td class="price">10.027</td>
+            <td class="ma20">9.2844</td>
+            <td class="deviation pos">+8.00%</td>
+            <td class="volratio">1.28 <span class="vol-tag">放量</span></td>
+            <td class="amount">8.44亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">趋势向上但偏离MA20达8.0%，短期超买，等回调</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">510300</td>
+            <td class="name">沪深300ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">4.627</td>
+            <td class="ma20">4.6929</td>
+            <td class="deviation neg">-1.40%</td>
+            <td class="volratio">1.03 <span class="vol-tag">平量</span></td>
+            <td class="amount">42.96亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动4.4%，价格处20日14%分位，日均成交42.96亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">510500</td>
+            <td class="name">中证500ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">7.74</td>
+            <td class="ma20">7.8103</td>
+            <td class="deviation neg">-0.90%</td>
+            <td class="volratio">1.07 <span class="vol-tag">平量</span></td>
+            <td class="amount">27.16亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动11.1%，价格处20日47%分位，日均成交27.16亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">159915</td>
+            <td class="name">创业板ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">3.457</td>
+            <td class="ma20">3.521</td>
+            <td class="deviation neg">-1.82%</td>
+            <td class="volratio">1.1 <span class="vol-tag">平量</span></td>
+            <td class="amount">65.83亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动14.1%，价格处20日38%分位，日均成交65.83亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">588000</td>
+            <td class="name">科创50ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">1.691</td>
+            <td class="ma20">1.7769</td>
+            <td class="deviation neg">-4.83%</td>
+            <td class="volratio">1.03 <span class="vol-tag">平量</span></td>
+            <td class="amount">70.09亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动14.9%，价格处20日22%分位，日均成交70.09亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="avoid">
+            <td class="code">510050</td>
+            <td class="name">上证50ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">2.979</td>
+            <td class="ma20">3.0237</td>
+            <td class="deviation neg">-1.48%</td>
+            <td class="volratio">1.34 <span class="vol-tag">放量</span></td>
+            <td class="amount">17.07亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">20日波动仅3.2%，空间不足，网格收益有限</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">512100</td>
+            <td class="name">中证1000ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">3.04</td>
+            <td class="ma20">3.0375</td>
+            <td class="deviation pos">+0.08%</td>
+            <td class="volratio">0.96 <span class="vol-tag">平量</span></td>
+            <td class="amount">37.7亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动14.0%，价格处20日57%分位，日均成交37.7亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">159901</td>
+            <td class="name">深证100ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">3.591</td>
+            <td class="ma20">3.6599</td>
+            <td class="deviation neg">-1.88%</td>
+            <td class="volratio">1.17 <span class="vol-tag">平量</span></td>
+            <td class="amount">3.98亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动7.9%，价格处20日24%分位，日均成交3.98亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="watch">
+            <td class="code">510880</td>
+            <td class="name">红利ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">3.44</td>
+            <td class="ma20">3.3077</td>
+            <td class="deviation pos">+4.00%</td>
+            <td class="volratio">1.5 <span class="vol-tag">放量</span></td>
+            <td class="amount">6.31亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">波动充足但价格处20日100%高位，等回调再开网格</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="avoid">
+            <td class="code">560050</td>
+            <td class="name">MSCI中国A50ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">1.098</td>
+            <td class="ma20">1.1137</td>
+            <td class="deviation neg">-1.41%</td>
+            <td class="volratio">0.69 <span class="vol-tag">缩量</span></td>
+            <td class="amount">0.84亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-avoid">不建议</td>
+            <td class="reason">5日日均成交仅0.84亿，低于1亿底线</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">159949</td>
+            <td class="name">创业板50ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">1.621</td>
+            <td class="ma20">1.6538</td>
+            <td class="deviation neg">-1.99%</td>
+            <td class="volratio">1.09 <span class="vol-tag">平量</span></td>
+            <td class="amount">17.89亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动14.1%，价格处20日37%分位，日均成交17.89亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">510330</td>
+            <td class="name">华夏沪深300ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">4.824</td>
+            <td class="ma20">4.8925</td>
+            <td class="deviation neg">-1.40%</td>
+            <td class="volratio">0.85 <span class="vol-tag">平量</span></td>
+            <td class="amount">7.03亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动4.3%，价格处20日13%分位，日均成交7.03亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+        <tr class="etf-row" data-engine="D" data-level="buy">
+            <td class="code">159922</td>
+            <td class="name">嘉实中证500ETF</td>
+            <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
+            <td class="price">3.142</td>
+            <td class="ma20">3.1679</td>
+            <td class="deviation neg">-0.82%</td>
+            <td class="volratio">1.21 <span class="vol-tag">放量</span></td>
+            <td class="amount">3.95亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
+            <td class="signal signal-buy">可开网格</td>
+            <td class="reason">20日波动11.3%，价格处20日48%分位，日均成交3.95亿，适合网格（需核实PE分位<30%）</td>
+        </tr>
+</tbody>
+</table>
+</div>
+
+<!-- 操作建议 -->
+<h2 class="section-title">💡 今日操作建议</h2>
+<div class="advice-box">
+    <h3>基于当前市场状态（下跌趋势）的配置建议</h3>
+    <ul>
+        <li><b>市场判断：</b>沪深300跌破MA20且均线向下，防守为主，降低仓位，关注货币ETF</li>
+        <li><b>优先引擎：</b>债券/货币ETF防守</li>
+        <li><b>仓位建议：</b>货币/债券仓60%，网格仓20%，现金20%</li>
+        <li><b>重点关注：</b>标普500ETF、德国ETF、华安黄金ETF、沪深300ETF、中证500ETF 等12只标的符合入场条件</li>
+        <li><b>回避标的：</b>跌破MA20的跨境ETF（如纳指ETF、恒生科技ETF、恒生ETF），均线之下不抄底</li>
+        <li><b>网格提示：</b>当前9只宽基ETF满足网格条件，但需自行核实对应指数PE分位是否&lt;30%</li>
+        <li><b>纪律提醒：</b>条件单设定后绝不因盘中情绪手动干预，跌破止损位无条件执行</li>
+    </ul>
+</div>
+
+<!-- 三大铁律 -->
+<h2 class="section-title">🔒 三大纪律铁律</h2>
+<div class="discipline">
+    <div class="disc-card">
+        <div class="lock">🚪</div>
+        <h4>流动性底线</h4>
+        <p>绝不碰日成交额低于1亿的冷门ETF，防止滑点过大导致套利失败</p>
+    </div>
+    <div class="disc-card">
+        <div class="lock">📏</div>
+        <h4>均线铁律</h4>
+        <p>跌破20日均线坚决不买，右侧趋势未确立前绝不盲目抄底</p>
+    </div>
+    <div class="disc-card">
+        <div class="lock">🤖</div>
+        <h4>尊重系统</h4>
+        <p>条件单一旦设定运行，绝不因盘中情绪波动手动干预</p>
+    </div>
+</div>
+
+<!-- 风险提示 -->
+<div class="risk-warning">
+    <b>⚠️ 风险提示：</b>本页面所有信号均基于量化规则自动生成，仅供学习参考，不构成任何投资建议。
+    ETF交易存在风险，历史表现不代表未来收益。市场有风险，投资需谨慎，盈亏自负。
+    网格交易在单边暴跌行情中可能导致持续亏损，请务必选择低估宽基标的并控制仓位。
+</div>
+
+<footer>
+    ETF四引擎轮动系统 ｜ 数据来源：新浪财经 ｜ 生成时间：2026-08-24 18:51:27<br>
+    告别情绪博弈，构建你的系统化交易控制室
+</footer>
+
+</div>
+
+<script>
+function filterTable(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.etf-row').forEach(row => {
+        if (type === 'all') {
+            row.style.display = '';
+        } else if (type === 'buy') {
+            row.style.display = row.dataset.level === 'buy' ? '' : 'none';
+        } else {
+            row.style.display = row.dataset.engine === type ? '' : 'none';
+        }
+    });
+}
+</script>
+
+</body>
+</html>
