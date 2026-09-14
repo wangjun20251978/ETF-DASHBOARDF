@@ -3,7 +3,7 @@ name: 每日更新四引擎轮动看板
 on:
   schedule:
     # UTC 11:00 = 北京时间 19:00, 每天
-    - cron: '0 11 * * *'
+    - cron: '40 7 * * *'   # UTC 07:40 = 北京 15:40 收盘后
   workflow_dispatch:
 
 permissions:
