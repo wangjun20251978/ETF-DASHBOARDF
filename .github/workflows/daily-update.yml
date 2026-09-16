@@ -38,4 +38,5 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add index.html
           git commit -m "auto: update 四引擎轮动看板 $(date +'%Y-%m-%d %H:%M')" || echo "no changes"
+          git pull --rebase origin main || true
           git push
