@@ -50,13 +50,13 @@ body {
 .market-indicator {
     width: 80px; height: 80px;
     border-radius: 50%;
-    background: #ef4444;
+    background: #f59e0b;
     display: flex; align-items: center; justify-content: center;
     font-size: 28px;
-    box-shadow: 0 0 30px #ef444455;
+    box-shadow: 0 0 30px #f59e0b55;
     flex-shrink: 0;
 }
-.market-info h2 { font-size: 22px; margin-bottom: 6px; color: #ef4444; }
+.market-info h2 { font-size: 22px; margin-bottom: 6px; color: #f59e0b; }
 .market-info p { font-size: 14px; color: #94a3b8; }
 
 /* 统计卡片 */
@@ -304,23 +304,23 @@ footer {
 
 <!-- 更新时间 -->
 <div class="update-bar">
-    数据更新时间：<b>2026-11-27 03:36:07</b> ｜ 数据来源：新浪财经 ｜ 共监控 <b>30</b> 只ETF
+    数据更新时间：<b>2026-11-27 20:33:09</b> ｜ 数据来源：新浪财经 ｜ 共监控 <b>30</b> 只ETF
 </div>
 
 <!-- 市场状态 -->
 <div class="market-state">
-    <div class="market-indicator">📉</div>
+    <div class="market-indicator">📈</div>
     <div class="market-info">
-        <h2>当前市场状态：下跌趋势</h2>
-        <p>沪深300跌破MA20且均线向下，防守为主，降低仓位，关注货币ETF</p>
+        <h2>当前市场状态：震荡偏强</h2>
+        <p>沪深300在MA20上方但均线走平，震荡市为主，网格引擎优先</p>
     </div>
 </div>
 
 <!-- 统计 -->
 <div class="stats">
     <div class="stat-card stat-total"><div class="num">30</div><div class="label">监控总数</div></div>
-    <div class="stat-card stat-buy"><div class="num">9</div><div class="label">建议进场/可开网格</div></div>
-    <div class="stat-card stat-watch"><div class="num">5</div><div class="label">观望</div></div>
+    <div class="stat-card stat-buy"><div class="num">6</div><div class="label">建议进场/可开网格</div></div>
+    <div class="stat-card stat-watch"><div class="num">8</div><div class="label">观望</div></div>
     <div class="stat-card stat-avoid"><div class="num">16</div><div class="label">不建议/流动性不足</div></div>
 </div>
 
@@ -374,27 +374,9 @@ footer {
 </div>
 
 <!-- 重点关注 -->
-<h2 class="section-title">🔥 当前建议进场标的（9只）</h2>
+<h2 class="section-title">🔥 当前建议进场标的（6只）</h2>
 <div class="focus-grid">
 
-        <div class="focus-card">
-            <div class="focus-header" style="border-left:4px solid #ec4899">
-                <div class="focus-title">
-                    <span class="focus-code">510300</span>
-                    <span class="focus-name">沪深300ETF</span>
-                </div>
-                <span class="focus-signal">可开网格</span>
-            </div>
-            <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>3.959</b></div>
-                <div class="focus-metric"><span>MA20</span><b>4.0782</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-2.92%</b></div>
-                <div class="focus-metric"><span>量比</span><b>0.36</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>81.33亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-2.49%</b></div>
-            </div>
-            <div class="focus-reason">20日波动6.0%，价格处20日0%分位，日均成交81.33亿，适合网格（需核实PE分位<30%）</div>
-        </div>
         <div class="focus-card">
             <div class="focus-header" style="border-left:4px solid #ec4899">
                 <div class="focus-title">
@@ -404,14 +386,14 @@ footer {
                 <span class="focus-signal">可开网格</span>
             </div>
             <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>5.888</b></div>
-                <div class="focus-metric"><span>MA20</span><b>6.3882</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-7.83%</b></div>
-                <div class="focus-metric"><span>量比</span><b>0.32</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>64.0亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-6.33%</b></div>
+                <div class="focus-metric"><span>现价</span><b>6.404</b></div>
+                <div class="focus-metric"><span>MA20</span><b>6.3931</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+0.17%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.5</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>60.63亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="pos">+5.80%</b></div>
             </div>
-            <div class="focus-reason">20日波动15.2%，价格处20日0%分位，日均成交64.0亿，适合网格（需核实PE分位<30%）</div>
+            <div class="focus-reason">20日波动14.0%，价格处20日58%分位，日均成交60.63亿，适合网格（需核实PE分位<30%）</div>
         </div>
         <div class="focus-card">
             <div class="focus-header" style="border-left:4px solid #ec4899">
@@ -422,32 +404,14 @@ footer {
                 <span class="focus-signal">可开网格</span>
             </div>
             <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>2.217</b></div>
-                <div class="focus-metric"><span>MA20</span><b>2.3993</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-7.60%</b></div>
-                <div class="focus-metric"><span>量比</span><b>1.0</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>138.78亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-3.94%</b></div>
+                <div class="focus-metric"><span>现价</span><b>2.471</b></div>
+                <div class="focus-metric"><span>MA20</span><b>2.4011</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+2.91%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.53</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>153.01亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="pos">+10.81%</b></div>
             </div>
-            <div class="focus-reason">20日波动17.6%，价格处20日5%分位，日均成交138.78亿，适合网格（需核实PE分位<30%）</div>
-        </div>
-        <div class="focus-card">
-            <div class="focus-header" style="border-left:4px solid #ec4899">
-                <div class="focus-title">
-                    <span class="focus-code">588000</span>
-                    <span class="focus-name">科创50ETF</span>
-                </div>
-                <span class="focus-signal">可开网格</span>
-            </div>
-            <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>1.233</b></div>
-                <div class="focus-metric"><span>MA20</span><b>1.3074</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-5.69%</b></div>
-                <div class="focus-metric"><span>量比</span><b>0.74</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>100.99亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-8.26%</b></div>
-            </div>
-            <div class="focus-reason">20日波动13.5%，价格处20日11%分位，日均成交100.99亿，适合网格（需核实PE分位<30%）</div>
+            <div class="focus-reason">20日波动15.8%，价格处20日70%分位，日均成交153.01亿，适合网格（需核实PE分位<30%）</div>
         </div>
         <div class="focus-card">
             <div class="focus-header" style="border-left:4px solid #ec4899">
@@ -458,14 +422,14 @@ footer {
                 <span class="focus-signal">可开网格</span>
             </div>
             <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>2.249</b></div>
-                <div class="focus-metric"><span>MA20</span><b>2.5137</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-10.53%</b></div>
-                <div class="focus-metric"><span>量比</span><b>1.08</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>75.38亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-6.91%</b></div>
+                <div class="focus-metric"><span>现价</span><b>2.464</b></div>
+                <div class="focus-metric"><span>MA20</span><b>2.5115</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="neg">-1.89%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.78</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>79.64亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="pos">+7.13%</b></div>
             </div>
-            <div class="focus-reason">20日波动20.6%，价格处20日0%分位，日均成交75.38亿，适合网格（需核实PE分位<30%）</div>
+            <div class="focus-reason">20日波动18.8%，价格处20日46%分位，日均成交79.64亿，适合网格（需核实PE分位<30%）</div>
         </div>
         <div class="focus-card">
             <div class="focus-header" style="border-left:4px solid #ec4899">
@@ -476,14 +440,14 @@ footer {
                 <span class="focus-signal">可开网格</span>
             </div>
             <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>2.635</b></div>
-                <div class="focus-metric"><span>MA20</span><b>2.7755</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-5.06%</b></div>
-                <div class="focus-metric"><span>量比</span><b>1.06</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>3.74亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-3.44%</b></div>
+                <div class="focus-metric"><span>现价</span><b>2.823</b></div>
+                <div class="focus-metric"><span>MA20</span><b>2.7771</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+1.65%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.75</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>4.3亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="pos">+5.73%</b></div>
             </div>
-            <div class="focus-reason">20日波动10.4%，价格处20日0%分位，日均成交3.74亿，适合网格（需核实PE分位<30%）</div>
+            <div class="focus-reason">20日波动9.7%，价格处20日69%分位，日均成交4.3亿，适合网格（需核实PE分位<30%）</div>
         </div>
         <div class="focus-card">
             <div class="focus-header" style="border-left:4px solid #ec4899">
@@ -494,32 +458,14 @@ footer {
                 <span class="focus-signal">可开网格</span>
             </div>
             <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>0.983</b></div>
-                <div class="focus-metric"><span>MA20</span><b>1.0706</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-8.18%</b></div>
-                <div class="focus-metric"><span>量比</span><b>0.91</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>25.07亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-3.91%</b></div>
+                <div class="focus-metric"><span>现价</span><b>1.108</b></div>
+                <div class="focus-metric"><span>MA20</span><b>1.0709</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+3.46%</b></div>
+                <div class="focus-metric"><span>量比</span><b>1.86</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>30.24亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="pos">+12.03%</b></div>
             </div>
-            <div class="focus-reason">20日波动18.9%，价格处20日3%分位，日均成交25.07亿，适合网格（需核实PE分位<30%）</div>
-        </div>
-        <div class="focus-card">
-            <div class="focus-header" style="border-left:4px solid #ec4899">
-                <div class="focus-title">
-                    <span class="focus-code">510330</span>
-                    <span class="focus-name">华夏沪深300ETF</span>
-                </div>
-                <span class="focus-signal">可开网格</span>
-            </div>
-            <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>4.132</b></div>
-                <div class="focus-metric"><span>MA20</span><b>4.2525</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-2.83%</b></div>
-                <div class="focus-metric"><span>量比</span><b>0.09</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>39.4亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-2.41%</b></div>
-            </div>
-            <div class="focus-reason">20日波动5.6%，价格处20日0%分位，日均成交39.4亿，适合网格（需核实PE分位<30%）</div>
+            <div class="focus-reason">20日波动16.8%，价格处20日70%分位，日均成交30.24亿，适合网格（需核实PE分位<30%）</div>
         </div>
         <div class="focus-card">
             <div class="focus-header" style="border-left:4px solid #ec4899">
@@ -530,14 +476,14 @@ footer {
                 <span class="focus-signal">可开网格</span>
             </div>
             <div class="focus-body">
-                <div class="focus-metric"><span>现价</span><b>2.39</b></div>
-                <div class="focus-metric"><span>MA20</span><b>2.5908</b></div>
-                <div class="focus-metric"><span>偏离</span><b class="neg">-7.75%</b></div>
-                <div class="focus-metric"><span>量比</span><b>1.01</b></div>
-                <div class="focus-metric"><span>日均成交</span><b>4.27亿</b></div>
-                <div class="focus-metric"><span>5日涨跌</span><b class="neg">-6.24%</b></div>
+                <div class="focus-metric"><span>现价</span><b>2.613</b></div>
+                <div class="focus-metric"><span>MA20</span><b>2.5935</b></div>
+                <div class="focus-metric"><span>偏离</span><b class="pos">+0.75%</b></div>
+                <div class="focus-metric"><span>量比</span><b>2.16</b></div>
+                <div class="focus-metric"><span>日均成交</span><b>5.42亿</b></div>
+                <div class="focus-metric"><span>5日涨跌</span><b class="pos">+6.78%</b></div>
             </div>
-            <div class="focus-reason">20日波动15.0%，价格处20日0%分位，日均成交4.27亿，适合网格（需核实PE分位<30%）</div>
+            <div class="focus-reason">20日波动13.7%，价格处20日62%分位，日均成交5.42亿，适合网格（需核实PE分位<30%）</div>
         </div>
 </div>
 
@@ -574,142 +520,142 @@ footer {
             <td class="code">513100</td>
             <td class="name">纳指ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">2.073</td>
-            <td class="ma20">2.1708</td>
-            <td class="deviation neg">-4.51%</td>
-            <td class="volratio">1.02 <span class="vol-tag">平量</span></td>
-            <td class="amount">4.66亿</td>
+            <td class="price">2.108</td>
+            <td class="ma20">2.1643</td>
+            <td class="deviation neg">-2.60%</td>
+            <td class="volratio">0.3 <span class="vol-tag">缩量</span></td>
+            <td class="amount">3.91亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价2.073低于MA20(2.1708)，偏离-4.51%，均线之下不抄底</td>
+            <td class="reason">现价2.108低于MA20(2.1643)，偏离-2.6%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513500</td>
             <td class="name">标普500ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">2.489</td>
-            <td class="ma20">2.5856</td>
-            <td class="deviation neg">-3.73%</td>
-            <td class="volratio">1.46 <span class="vol-tag">放量</span></td>
-            <td class="amount">3.76亿</td>
+            <td class="price">2.543</td>
+            <td class="ma20">2.5798</td>
+            <td class="deviation neg">-1.43%</td>
+            <td class="volratio">0.87 <span class="vol-tag">平量</span></td>
+            <td class="amount">3.54亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价2.489低于MA20(2.5856)，偏离-3.73%，均线之下不抄底</td>
+            <td class="reason">现价2.543低于MA20(2.5798)，偏离-1.43%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513130</td>
             <td class="name">恒生科技ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">0.425</td>
-            <td class="ma20">0.4664</td>
-            <td class="deviation neg">-8.87%</td>
-            <td class="volratio">0.96 <span class="vol-tag">平量</span></td>
-            <td class="amount">21.67亿</td>
+            <td class="price">0.448</td>
+            <td class="ma20">0.4657</td>
+            <td class="deviation neg">-3.80%</td>
+            <td class="volratio">1.38 <span class="vol-tag">放量</span></td>
+            <td class="amount">23.44亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价0.425低于MA20(0.4664)，偏离-8.87%，均线之下不抄底</td>
+            <td class="reason">现价0.448低于MA20(0.4657)，偏离-3.8%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">159920</td>
             <td class="name">恒生ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">1.304</td>
-            <td class="ma20">1.3722</td>
-            <td class="deviation neg">-4.97%</td>
-            <td class="volratio">0.78 <span class="vol-tag">缩量</span></td>
-            <td class="amount">2.53亿</td>
+            <td class="price">1.325</td>
+            <td class="ma20">1.3705</td>
+            <td class="deviation neg">-3.32%</td>
+            <td class="volratio">1.5 <span class="vol-tag">放量</span></td>
+            <td class="amount">2.77亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价1.304低于MA20(1.3722)，偏离-4.97%，均线之下不抄底</td>
+            <td class="reason">现价1.325低于MA20(1.3705)，偏离-3.32%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513030</td>
             <td class="name">德国ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">1.684</td>
-            <td class="ma20">1.7772</td>
-            <td class="deviation neg">-5.24%</td>
-            <td class="volratio">0.69 <span class="vol-tag">缩量</span></td>
-            <td class="amount">1.28亿</td>
+            <td class="price">1.702</td>
+            <td class="ma20">1.7728</td>
+            <td class="deviation neg">-3.99%</td>
+            <td class="volratio">0.98 <span class="vol-tag">平量</span></td>
+            <td class="amount">1.19亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价1.684低于MA20(1.7772)，偏离-5.24%，均线之下不抄底</td>
+            <td class="reason">现价1.702低于MA20(1.7728)，偏离-3.99%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513520</td>
             <td class="name">日经ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">1.936</td>
-            <td class="ma20">2.05</td>
-            <td class="deviation neg">-5.56%</td>
-            <td class="volratio">0.81 <span class="vol-tag">缩量</span></td>
+            <td class="price">2.002</td>
+            <td class="ma20">2.0412</td>
+            <td class="deviation neg">-1.92%</td>
+            <td class="volratio">1.2 <span class="vol-tag">平量</span></td>
             <td class="amount">2.25亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价1.936低于MA20(2.05)，偏离-5.56%，均线之下不抄底</td>
+            <td class="reason">现价2.002低于MA20(2.0412)，偏离-1.92%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513050</td>
             <td class="name">中概互联ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">0.858</td>
-            <td class="ma20">0.9355</td>
-            <td class="deviation neg">-8.28%</td>
-            <td class="volratio">0.9 <span class="vol-tag">平量</span></td>
-            <td class="amount">24.81亿</td>
+            <td class="price">0.891</td>
+            <td class="ma20">0.9335</td>
+            <td class="deviation neg">-4.55%</td>
+            <td class="volratio">1.46 <span class="vol-tag">放量</span></td>
+            <td class="amount">28.05亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价0.858低于MA20(0.9355)，偏离-8.28%，均线之下不抄底</td>
+            <td class="reason">现价0.891低于MA20(0.9335)，偏离-4.55%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513080</td>
             <td class="name">法国ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">1.589</td>
-            <td class="ma20">1.6281</td>
-            <td class="deviation neg">-2.40%</td>
-            <td class="volratio">0.65 <span class="vol-tag">缩量</span></td>
-            <td class="amount">0.66亿</td>
+            <td class="price">1.61</td>
+            <td class="ma20">1.6277</td>
+            <td class="deviation neg">-1.08%</td>
+            <td class="volratio">0.97 <span class="vol-tag">平量</span></td>
+            <td class="amount">0.62亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价1.589低于MA20(1.6281)，偏离-2.4%，均线之下不抄底</td>
+            <td class="reason">现价1.61低于MA20(1.6277)，偏离-1.08%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513730</td>
             <td class="name">越南ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">0.965</td>
-            <td class="ma20">0.9945</td>
-            <td class="deviation neg">-2.97%</td>
-            <td class="volratio">0.94 <span class="vol-tag">平量</span></td>
-            <td class="amount">0.18亿</td>
+            <td class="price">0.984</td>
+            <td class="ma20">0.994</td>
+            <td class="deviation neg">-1.01%</td>
+            <td class="volratio">1.8 <span class="vol-tag">放量</span></td>
+            <td class="amount">0.22亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价0.965低于MA20(0.9945)，偏离-2.97%，均线之下不抄底</td>
+            <td class="reason">现价0.984低于MA20(0.994)，偏离-1.01%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="A" data-level="avoid">
             <td class="code">513110</td>
             <td class="name">纳指科技ETF</td>
             <td class="engine-tag" style="color:#f59e0b">跨境T+0套利</td>
-            <td class="price">2.284</td>
-            <td class="ma20">2.3841</td>
-            <td class="deviation neg">-4.20%</td>
-            <td class="volratio">0.97 <span class="vol-tag">平量</span></td>
-            <td class="amount">2.86亿</td>
+            <td class="price">2.364</td>
+            <td class="ma20">2.3796</td>
+            <td class="deviation neg">-0.66%</td>
+            <td class="volratio">0.78 <span class="vol-tag">缩量</span></td>
+            <td class="amount">2.52亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">现价2.284低于MA20(2.3841)，偏离-4.2%，均线之下不抄底</td>
+            <td class="reason">现价2.364低于MA20(2.3796)，偏离-0.66%，均线之下不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="B" data-level="watch">
             <td class="code">511990</td>
             <td class="name">华宝添益</td>
             <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
-            <td class="price">100.004</td>
-            <td class="ma20">100.0035</td>
-            <td class="deviation pos">+0.00%</td>
-            <td class="volratio">0.72 <span class="vol-tag">缩量</span></td>
-            <td class="amount">131.08亿</td>
-            <td class="ma20-status up">✓ 站上</td>
+            <td class="price">99.992</td>
+            <td class="ma20">100.0029</td>
+            <td class="deviation neg">-0.01%</td>
+            <td class="volratio">2.73 <span class="vol-tag">放量</span></td>
+            <td class="amount">185.31亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-watch">观望</td>
             <td class="reason">当前(11-27)非长假窗口，作现金管理持有，长假前1周布局</td>
         </tr>
@@ -717,11 +663,11 @@ footer {
             <td class="code">511880</td>
             <td class="name">银华日利</td>
             <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
-            <td class="price">101.002</td>
-            <td class="ma20">100.9703</td>
+            <td class="price">100.999</td>
+            <td class="ma20">100.9727</td>
             <td class="deviation pos">+0.03%</td>
-            <td class="volratio">0.83 <span class="vol-tag">缩量</span></td>
-            <td class="amount">224.21亿</td>
+            <td class="volratio">2.21 <span class="vol-tag">放量</span></td>
+            <td class="amount">275.48亿</td>
             <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-watch">观望</td>
             <td class="reason">当前(11-27)非长假窗口，作现金管理持有，长假前1周布局</td>
@@ -730,11 +676,11 @@ footer {
             <td class="code">511620</td>
             <td class="name">海富通短融</td>
             <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
-            <td class="price">100.006</td>
-            <td class="ma20">100.0104</td>
-            <td class="deviation pos">-0.00%</td>
-            <td class="volratio">0.46 <span class="vol-tag">缩量</span></td>
-            <td class="amount">0.31亿</td>
+            <td class="price">100.002</td>
+            <td class="ma20">100.0097</td>
+            <td class="deviation neg">-0.01%</td>
+            <td class="volratio">1.06 <span class="vol-tag">平量</span></td>
+            <td class="amount">0.27亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-watch">观望</td>
             <td class="reason">当前(11-27)非长假窗口，作现金管理持有，长假前1周布局</td>
@@ -743,11 +689,11 @@ footer {
             <td class="code">511520</td>
             <td class="name">政金债ETF</td>
             <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
-            <td class="price">118.805</td>
-            <td class="ma20">119.5254</td>
-            <td class="deviation neg">-0.60%</td>
+            <td class="price">118.42</td>
+            <td class="ma20">119.4694</td>
+            <td class="deviation neg">-0.88%</td>
             <td class="volratio">0.93 <span class="vol-tag">平量</span></td>
-            <td class="amount">22.85亿</td>
+            <td class="amount">21.26亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-watch">观望</td>
             <td class="reason">当前(11-27)非长假窗口，作现金管理持有，长假前1周布局</td>
@@ -756,12 +702,12 @@ footer {
             <td class="code">511260</td>
             <td class="name">十年国债ETF</td>
             <td class="engine-tag" style="color:#06b6d4">债券节假日套利</td>
-            <td class="price">135.926</td>
-            <td class="ma20">135.8613</td>
-            <td class="deviation pos">+0.05%</td>
-            <td class="volratio">0.36 <span class="vol-tag">缩量</span></td>
-            <td class="amount">45.42亿</td>
-            <td class="ma20-status up">✓ 站上</td>
+            <td class="price">135.67</td>
+            <td class="ma20">135.8784</td>
+            <td class="deviation neg">-0.15%</td>
+            <td class="volratio">0.44 <span class="vol-tag">缩量</span></td>
+            <td class="amount">36.45亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-watch">观望</td>
             <td class="reason">当前(11-27)非长假窗口，作现金管理持有，长假前1周布局</td>
         </tr>
@@ -769,196 +715,196 @@ footer {
             <td class="code">518880</td>
             <td class="name">华安黄金ETF</td>
             <td class="engine-tag" style="color:#eab308">黄金宏观套利</td>
-            <td class="price">7.27</td>
-            <td class="ma20">7.8812</td>
-            <td class="deviation neg">-7.76%</td>
-            <td class="volratio">1.01 <span class="vol-tag">平量</span></td>
-            <td class="amount">50.55亿</td>
+            <td class="price">7.441</td>
+            <td class="ma20">7.8475</td>
+            <td class="deviation neg">-5.18%</td>
+            <td class="volratio">1.15 <span class="vol-tag">平量</span></td>
+            <td class="amount">47.17亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">金价跌破MA20(7.8812)，趋势或拐头，不抄底</td>
+            <td class="reason">金价跌破MA20(7.8475)，趋势或拐头，不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="C" data-level="avoid">
             <td class="code">159937</td>
             <td class="name">博时黄金ETF</td>
             <td class="engine-tag" style="color:#eab308">黄金宏观套利</td>
-            <td class="price">7.251</td>
-            <td class="ma20">7.8624</td>
-            <td class="deviation neg">-7.78%</td>
-            <td class="volratio">0.8 <span class="vol-tag">缩量</span></td>
-            <td class="amount">10.67亿</td>
+            <td class="price">7.425</td>
+            <td class="ma20">7.8291</td>
+            <td class="deviation neg">-5.16%</td>
+            <td class="volratio">1.16 <span class="vol-tag">平量</span></td>
+            <td class="amount">9.78亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">金价跌破MA20(7.8624)，趋势或拐头，不抄底</td>
+            <td class="reason">金价跌破MA20(7.8291)，趋势或拐头，不抄底</td>
         </tr>
         <tr class="etf-row" data-engine="C" data-level="avoid">
             <td class="code">518800</td>
             <td class="name">黄金基金ETF</td>
             <td class="engine-tag" style="color:#eab308">黄金宏观套利</td>
-            <td class="price">7.622</td>
-            <td class="ma20">8.2632</td>
-            <td class="deviation neg">-7.76%</td>
-            <td class="volratio">0.91 <span class="vol-tag">平量</span></td>
-            <td class="amount">11.06亿</td>
+            <td class="price">7.802</td>
+            <td class="ma20">8.228</td>
+            <td class="deviation neg">-5.18%</td>
+            <td class="volratio">0.95 <span class="vol-tag">平量</span></td>
+            <td class="amount">9.74亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">金价跌破MA20(8.2632)，趋势或拐头，不抄底</td>
+            <td class="reason">金价跌破MA20(8.228)，趋势或拐头，不抄底</td>
         </tr>
-        <tr class="etf-row" data-engine="D" data-level="buy">
+        <tr class="etf-row" data-engine="D" data-level="watch">
             <td class="code">510300</td>
             <td class="name">沪深300ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">3.959</td>
-            <td class="ma20">4.0782</td>
-            <td class="deviation neg">-2.92%</td>
-            <td class="volratio">0.36 <span class="vol-tag">缩量</span></td>
-            <td class="amount">81.33亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
-            <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动6.0%，价格处20日0%分位，日均成交81.33亿，适合网格（需核实PE分位<30%）</td>
+            <td class="price">4.162</td>
+            <td class="ma20">4.0831</td>
+            <td class="deviation pos">+1.93%</td>
+            <td class="volratio">1.49 <span class="vol-tag">放量</span></td>
+            <td class="amount">69.72亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">波动充足但价格处20日86%高位，等回调再开网格</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="buy">
             <td class="code">510500</td>
             <td class="name">中证500ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">5.888</td>
-            <td class="ma20">6.3882</td>
-            <td class="deviation neg">-7.83%</td>
-            <td class="volratio">0.32 <span class="vol-tag">缩量</span></td>
-            <td class="amount">64.0亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
+            <td class="price">6.404</td>
+            <td class="ma20">6.3931</td>
+            <td class="deviation pos">+0.17%</td>
+            <td class="volratio">1.5 <span class="vol-tag">放量</span></td>
+            <td class="amount">60.63亿</td>
+            <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动15.2%，价格处20日0%分位，日均成交64.0亿，适合网格（需核实PE分位<30%）</td>
+            <td class="reason">20日波动14.0%，价格处20日58%分位，日均成交60.63亿，适合网格（需核实PE分位<30%）</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="buy">
             <td class="code">159915</td>
             <td class="name">创业板ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">2.217</td>
-            <td class="ma20">2.3993</td>
-            <td class="deviation neg">-7.60%</td>
-            <td class="volratio">1.0 <span class="vol-tag">平量</span></td>
-            <td class="amount">138.78亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
+            <td class="price">2.471</td>
+            <td class="ma20">2.4011</td>
+            <td class="deviation pos">+2.91%</td>
+            <td class="volratio">1.53 <span class="vol-tag">放量</span></td>
+            <td class="amount">153.01亿</td>
+            <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动17.6%，价格处20日5%分位，日均成交138.78亿，适合网格（需核实PE分位<30%）</td>
+            <td class="reason">20日波动15.8%，价格处20日70%分位，日均成交153.01亿，适合网格（需核实PE分位<30%）</td>
         </tr>
-        <tr class="etf-row" data-engine="D" data-level="buy">
+        <tr class="etf-row" data-engine="D" data-level="watch">
             <td class="code">588000</td>
             <td class="name">科创50ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">1.233</td>
-            <td class="ma20">1.3074</td>
-            <td class="deviation neg">-5.69%</td>
-            <td class="volratio">0.74 <span class="vol-tag">缩量</span></td>
-            <td class="amount">100.99亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
-            <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动13.5%，价格处20日11%分位，日均成交100.99亿，适合网格（需核实PE分位<30%）</td>
+            <td class="price">1.447</td>
+            <td class="ma20">1.3183</td>
+            <td class="deviation pos">+9.76%</td>
+            <td class="volratio">1.77 <span class="vol-tag">放量</span></td>
+            <td class="amount">119.68亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">波动充足但价格处20日100%高位，等回调再开网格</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="avoid">
             <td class="code">510050</td>
             <td class="name">上证50ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">2.864</td>
-            <td class="ma20">2.8873</td>
-            <td class="deviation neg">-0.81%</td>
-            <td class="volratio">0.32 <span class="vol-tag">缩量</span></td>
-            <td class="amount">79.56亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
+            <td class="price">2.962</td>
+            <td class="ma20">2.8923</td>
+            <td class="deviation pos">+2.41%</td>
+            <td class="volratio">0.42 <span class="vol-tag">缩量</span></td>
+            <td class="amount">37.77亿</td>
+            <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">20日波动仅2.5%，空间不足，网格收益有限</td>
+            <td class="reason">20日波动仅3.5%，空间不足，网格收益有限</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="buy">
             <td class="code">512100</td>
             <td class="name">中证1000ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">2.249</td>
-            <td class="ma20">2.5137</td>
-            <td class="deviation neg">-10.53%</td>
-            <td class="volratio">1.08 <span class="vol-tag">平量</span></td>
-            <td class="amount">75.38亿</td>
+            <td class="price">2.464</td>
+            <td class="ma20">2.5115</td>
+            <td class="deviation neg">-1.89%</td>
+            <td class="volratio">1.78 <span class="vol-tag">放量</span></td>
+            <td class="amount">79.64亿</td>
             <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动20.6%，价格处20日0%分位，日均成交75.38亿，适合网格（需核实PE分位<30%）</td>
+            <td class="reason">20日波动18.8%，价格处20日46%分位，日均成交79.64亿，适合网格（需核实PE分位<30%）</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="buy">
             <td class="code">159901</td>
             <td class="name">深证100ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">2.635</td>
-            <td class="ma20">2.7755</td>
-            <td class="deviation neg">-5.06%</td>
-            <td class="volratio">1.06 <span class="vol-tag">平量</span></td>
-            <td class="amount">3.74亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
+            <td class="price">2.823</td>
+            <td class="ma20">2.7771</td>
+            <td class="deviation pos">+1.65%</td>
+            <td class="volratio">1.75 <span class="vol-tag">放量</span></td>
+            <td class="amount">4.3亿</td>
+            <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动10.4%，价格处20日0%分位，日均成交3.74亿，适合网格（需核实PE分位<30%）</td>
+            <td class="reason">20日波动9.7%，价格处20日69%分位，日均成交4.3亿，适合网格（需核实PE分位<30%）</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="avoid">
             <td class="code">510880</td>
             <td class="name">红利ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">3.407</td>
-            <td class="ma20">3.4018</td>
-            <td class="deviation pos">+0.15%</td>
-            <td class="volratio">1.54 <span class="vol-tag">放量</span></td>
-            <td class="amount">4.73亿</td>
-            <td class="ma20-status up">✓ 站上</td>
+            <td class="price">3.395</td>
+            <td class="ma20">3.3985</td>
+            <td class="deviation neg">-0.10%</td>
+            <td class="volratio">1.39 <span class="vol-tag">放量</span></td>
+            <td class="amount">5.21亿</td>
+            <td class="ma20-status down">✗ 跌破</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">20日波动仅3.3%，空间不足，网格收益有限</td>
+            <td class="reason">20日波动仅2.7%，空间不足，网格收益有限</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="avoid">
             <td class="code">560050</td>
             <td class="name">MSCI中国A50ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">0.909</td>
-            <td class="ma20">0.9309</td>
-            <td class="deviation neg">-2.36%</td>
-            <td class="volratio">0.91 <span class="vol-tag">平量</span></td>
-            <td class="amount">0.38亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
+            <td class="price">0.953</td>
+            <td class="ma20">0.9318</td>
+            <td class="deviation pos">+2.27%</td>
+            <td class="volratio">1.09 <span class="vol-tag">平量</span></td>
+            <td class="amount">0.4亿</td>
+            <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-avoid">不建议</td>
-            <td class="reason">5日日均成交仅0.38亿，低于1亿底线</td>
+            <td class="reason">5日日均成交仅0.4亿，低于1亿底线</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="buy">
             <td class="code">159949</td>
             <td class="name">创业板50ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">0.983</td>
-            <td class="ma20">1.0706</td>
-            <td class="deviation neg">-8.18%</td>
-            <td class="volratio">0.91 <span class="vol-tag">平量</span></td>
-            <td class="amount">25.07亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
+            <td class="price">1.108</td>
+            <td class="ma20">1.0709</td>
+            <td class="deviation pos">+3.46%</td>
+            <td class="volratio">1.86 <span class="vol-tag">放量</span></td>
+            <td class="amount">30.24亿</td>
+            <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动18.9%，价格处20日3%分位，日均成交25.07亿，适合网格（需核实PE分位<30%）</td>
+            <td class="reason">20日波动16.8%，价格处20日70%分位，日均成交30.24亿，适合网格（需核实PE分位<30%）</td>
         </tr>
-        <tr class="etf-row" data-engine="D" data-level="buy">
+        <tr class="etf-row" data-engine="D" data-level="watch">
             <td class="code">510330</td>
             <td class="name">华夏沪深300ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">4.132</td>
-            <td class="ma20">4.2525</td>
-            <td class="deviation neg">-2.83%</td>
-            <td class="volratio">0.09 <span class="vol-tag">缩量</span></td>
-            <td class="amount">39.4亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
-            <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动5.6%，价格处20日0%分位，日均成交39.4亿，适合网格（需核实PE分位<30%）</td>
+            <td class="price">4.335</td>
+            <td class="ma20">4.2574</td>
+            <td class="deviation pos">+1.82%</td>
+            <td class="volratio">0.33 <span class="vol-tag">缩量</span></td>
+            <td class="amount">38.77亿</td>
+            <td class="ma20-status up">✓ 站上</td>
+            <td class="signal signal-watch">观望</td>
+            <td class="reason">波动充足但价格处20日88%高位，等回调再开网格</td>
         </tr>
         <tr class="etf-row" data-engine="D" data-level="buy">
             <td class="code">159922</td>
             <td class="name">嘉实中证500ETF</td>
             <td class="engine-tag" style="color:#ec4899">宽基网格自动化</td>
-            <td class="price">2.39</td>
-            <td class="ma20">2.5908</td>
-            <td class="deviation neg">-7.75%</td>
-            <td class="volratio">1.01 <span class="vol-tag">平量</span></td>
-            <td class="amount">4.27亿</td>
-            <td class="ma20-status down">✗ 跌破</td>
+            <td class="price">2.613</td>
+            <td class="ma20">2.5935</td>
+            <td class="deviation pos">+0.75%</td>
+            <td class="volratio">2.16 <span class="vol-tag">放量</span></td>
+            <td class="amount">5.42亿</td>
+            <td class="ma20-status up">✓ 站上</td>
             <td class="signal signal-buy">可开网格</td>
-            <td class="reason">20日波动15.0%，价格处20日0%分位，日均成交4.27亿，适合网格（需核实PE分位<30%）</td>
+            <td class="reason">20日波动13.7%，价格处20日62%分位，日均成交5.42亿，适合网格（需核实PE分位<30%）</td>
         </tr>
 </tbody>
 </table>
@@ -967,14 +913,14 @@ footer {
 <!-- 操作建议 -->
 <h2 class="section-title">💡 今日操作建议</h2>
 <div class="advice-box">
-    <h3>基于当前市场状态（下跌趋势）的配置建议</h3>
+    <h3>基于当前市场状态（震荡偏强）的配置建议</h3>
     <ul>
-        <li><b>市场判断：</b>沪深300跌破MA20且均线向下，防守为主，降低仓位，关注货币ETF</li>
-        <li><b>优先引擎：</b>债券/货币ETF防守</li>
-        <li><b>仓位建议：</b>货币/债券仓60%，网格仓20%，现金20%</li>
-        <li><b>重点关注：</b>沪深300ETF、中证500ETF、创业板ETF、科创50ETF、中证1000ETF 等9只标的符合入场条件</li>
+        <li><b>市场判断：</b>沪深300在MA20上方但均线走平，震荡市为主，网格引擎优先</li>
+        <li><b>优先引擎：</b>宽基网格自动化</li>
+        <li><b>仓位建议：</b>网格仓50%，趋势仓20%，现金30%</li>
+        <li><b>重点关注：</b>中证500ETF、创业板ETF、中证1000ETF、深证100ETF、创业板50ETF 等6只标的符合入场条件</li>
         <li><b>回避标的：</b>跌破MA20的跨境ETF（如纳指ETF、标普500ETF、恒生科技ETF），均线之下不抄底</li>
-        <li><b>网格提示：</b>当前9只宽基ETF满足网格条件，但需自行核实对应指数PE分位是否&lt;30%</li>
+        <li><b>网格提示：</b>当前6只宽基ETF满足网格条件，但需自行核实对应指数PE分位是否&lt;30%</li>
         <li><b>纪律提醒：</b>条件单设定后绝不因盘中情绪手动干预，跌破止损位无条件执行</li>
     </ul>
 </div>
@@ -1007,7 +953,7 @@ footer {
 </div>
 
 <footer>
-    ETF四引擎轮动系统 ｜ 数据来源：新浪财经 ｜ 生成时间：2026-11-27 03:36:07<br>
+    ETF四引擎轮动系统 ｜ 数据来源：新浪财经 ｜ 生成时间：2026-11-27 20:33:09<br>
     告别情绪博弈，构建你的系统化交易控制室
 </footer>
 
